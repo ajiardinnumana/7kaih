@@ -1,5 +1,5 @@
 function doGet() {
-  return HtmlService.createTemplateFromFile('Index')
+  return HtmlService.createTemplateFromFile('index')
     .evaluate()
     .setTitle('Kontrol Perkembangan 7 KAIH - SMPN 1 Wangi-Wangi')
     .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
