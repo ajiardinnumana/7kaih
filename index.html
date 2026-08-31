@@ -1,796 +1,337 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <base target="_top">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jurnal 7 KAIH - SMPN 1 Wangi-Wangi</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary-color: #0d6efd;
-      --bg-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-    }
-
-    body {
-      background: #f4f6f9;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh;
-      font-size: 16px; /* Ukuran font dasar diperbesar */
-    }
-
-    /* Tampilan Khusus Auth (Login/Register) */
-    .auth-wrapper {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px 12px;
-      background: var(--bg-gradient);
-    }
-
-    .auth-card {
-      background: #ffffff;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-      border: none;
-      width: 100%;
-      max-width: 480px; /* Diperlebar sedikit dari sebelumnya */
-      padding: 28px !important;
-    }
-
-    .auth-header {
-      background: #ffffff;
-      padding: 10px 0 20px 0;
-      text-align: center;
-    }
-
-    .auth-header h4 {
-      font-size: 1.5rem;
-      font-weight: 700;
-    }
-
-    .auth-nav .nav-link {
-      color: #6c757d;
-      font-weight: 600;
-      border-radius: 10px;
-      padding: 14px; /* Tab diperbesar */
-      font-size: 1.05rem;
-      transition: all 0.3s ease;
-    }
-
-    .auth-nav .nav-link.active {
-      background-color: #eef2ff;
-      color: var(--primary-color);
-    }
-
-    /* Elemen Input & Tombol Ekstra Lapang untuk HP */
-    .form-label {
-      font-size: 0.95rem;
-      margin-bottom: 6px;
-    }
-
-    .form-control, .form-select {
-      border-radius: 12px;
-      padding: 14px 16px; /* Input lebih tebal & lega */
-      font-size: 1rem;
-      border: 1px solid #ced4da;
-    }
-
-    .form-control:focus, .form-select:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
-    }
-
-    .btn-custom {
-      padding: 14px; /* Tombol jempol friendly */
-      font-weight: 700;
-      border-radius: 12px;
-      font-size: 1.1rem;
-    }
-
-    .input-group-text {
-      border-top-right-radius: 12px;
-      border-bottom-right-radius: 12px;
-      padding: 0 16px;
-      background: #f8f9fa;
-      font-size: 1.2rem;
-      cursor: pointer;
-    }
-
-    /* Penyesuaian khusus untuk Smartphone Layar Kecil */
-    @media (max-width: 576px) {
-      .auth-card {
-        padding: 20px 16px !important;
-      }
-      .auth-header h4 {
-        font-size: 1.35rem;
-      }
-      .form-control, .form-select {
-        padding: 12px 14px;
-        font-size: 0.95rem;
-      }
-      .btn-custom {
-        padding: 13px;
-        font-size: 1rem;
-      }
-    }
-
-    /* Print & Style Laporan */
-    @media print {
-      body * { visibility: hidden; }
-      #areaCetak, #areaCetak * { visibility: visible; }
-      #areaCetak { position: absolute; left: 0; top: 0; width: 100%; }
-      .no-print { display: none !important; }
-
-      #tabelLaporanUtama th, 
-      #tabelLaporanUtama td {
-        text-align: center !important;
-        vertical-align: middle !important;
-        border: 1px solid #000000 !important;
-      }
-      #tabelLaporanUtama thead th {
-        background-color: #e9ecef !important;
-        color: #000000 !important;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-      #tabelLaporanUtama tbody td {
-        background-color: #ffffff !important;
-      }
-      .tabel-info-murid td {
-        text-align: left !important;
-        vertical-align: top !important;
-      }
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
   </style>
 </head>
-<body>
+<body class="bg-slate-50 min-h-screen pb-12">
 
-<!-- ==================== CONTAINER AUTH (LOGIN & REGISTRASI) ==================== -->
-<div id="authSection" class="auth-wrapper">
-  <div class="auth-card">
-    <div class="auth-header">
-      <h4 class="text-dark mb-1">SMP Negeri 1 Wangi-Wangi</h4>
-      <p class="text-muted small mb-0">Sistem Kontrol Perkembangan 7 KAIH</p>
-    </div>
-
-    <!-- Tab Navigasi Login / Register -->
-    <ul class="nav nav-pills nav-justified auth-nav mb-4">
-      <li class="nav-item">
-        <button class="nav-link active" id="tabLogin" onclick="switchTab('login')">
-          <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
-        </button>
-      </li>
-      <li class="nav-item">
-        <button class="nav-link" id="tabRegister" onclick="switchTab('register')">
-          <i class="bi bi-person-plus me-1"></i> Daftar
-        </button>
-      </li>
-    </ul>
-
-    <!-- FORM LOGIN -->
-    <div id="loginForm">
-      <div class="mb-3">
-        <label class="form-label fw-semibold text-secondary">Masuk Sebagai</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white"><i class="bi bi-person-badge text-muted"></i></span>
-          <select id="loginRole" class="form-select border-start-0" onchange="muatUserLoginOptions()">
-            <option value="Murid">Murid</option>
-            <option value="Guru">Guru Wali</option>
-          </select>
+  <!-- Header Section -->
+  <header class="bg-gradient-to-r from-blue-700 via-indigo-700 to-sky-600 text-white shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4 text-center md:text-left">
+        <div class="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center text-3xl shadow-inner backdrop-blur-sm">
+          🎓
+        </div>
+        <div>
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">SMP Negeri 1 WANGI-WANGI</h1>
+          <p class="text-blue-100 text-sm md:text-base font-medium">Jurnal Harian 7 Kebiasaan Anak Indonesia Hebat (7 KAIH)</p>
         </div>
       </div>
-
-      <div class="mb-3">
-        <label class="form-label fw-semibold text-secondary">Pilih Nama Pengguna</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white"><i class="bi bi-person text-muted"></i></span>
-          <select id="loginNama" class="form-select border-start-0">
-            <option value="">-- Memuat nama... --</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="mb-4">
-        <label class="form-label fw-semibold text-secondary">Password</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white"><i class="bi bi-key text-muted"></i></span>
-          <input type="password" id="loginPass" class="form-control border-start-0 border-end-0" placeholder="Masukkan Password" required>
-          <span class="input-group-text bg-white" onclick="togglePassword('loginPass', 'iconPassLogin')">
-            <i class="bi bi-eye-slash text-muted" id="iconPassLogin"></i>
-          </span>
-        </div>
-      </div>
-
-      <button onclick="prosesLogin()" class="btn btn-primary btn-custom w-100 shadow-sm">
-        <i class="bi bi-box-arrow-in-right me-1"></i> Masuk
+      <button onclick="toggleConfigModal()" class="bg-white/10 hover:bg-white/20 text-xs md:text-sm px-3 py-2 rounded-xl transition flex items-center gap-2 backdrop-blur-sm border border-white/20">
+        <i class="fa-solid fa-gear"></i> Setup Server URL
       </button>
     </div>
+  </header>
 
-    <!-- FORM REGISTRASI -->
-    <div id="registerForm" style="display:none;">
-      <div class="mb-3">
-        <label class="form-label fw-semibold text-secondary">Daftar Sebagai</label>
-        <select id="regRole" class="form-select" onchange="toggleRegForm()">
-          <option value="Guru">Guru Wali (Harus Daftar Pertama)</option>
-          <option value="Murid">Murid</option>
-        </select>
-      </div>
+  <!-- Main Container -->
+  <main class="max-w-5xl mx-auto px-4 mt-8 space-y-8">
 
-      <div class="mb-3">
-        <label class="form-label fw-semibold text-secondary">Nama Lengkap</label>
-        <input type="text" id="regNama" class="form-control" placeholder="Contoh: Ahmad Subagja" required>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label fw-semibold text-secondary">NIP / NIS</label>
-        <input type="text" id="regNipNis" class="form-control" placeholder="Nomor Induk" required>
-      </div>
-      
-      <div id="fieldMuridOnly" style="display:none;">
-        <div class="mb-3">
-          <label class="form-label fw-semibold text-secondary">Kelas</label>
-          <input type="text" id="regKelas" class="form-control" placeholder="Contoh: VII-A">
+    <!-- Modal Configuration (GAS API URL) -->
+    <div id="configModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
+        <div class="flex justify-between items-center border-b pb-3">
+          <h3 class="font-bold text-gray-800 flex items-center gap-2">
+            <i class="fa-solid fa-link text-blue-600"></i> Konfigurasi Google Apps Script
+          </h3>
+          <button onclick="toggleConfigModal()" class="text-gray-400 hover:text-gray-600"><i class="fa-solid fa-xmark text-lg"></i></button>
         </div>
-        <div class="mb-3">
-          <label class="form-label fw-semibold text-secondary">Pilih Guru Wali</label>
-          <select id="regGuruWali" class="form-select">
-            <option value="">-- Pilih Guru Wali --</option>
-          </select>
+        <p class="text-xs text-gray-500">Masukkan URL Deployment Web App Apps Script Anda di bawah ini:</p>
+        <input type="url" id="gasUrlInput" placeholder="https://script.google.com/macros/s/.../exec" 
+               class="w-full px-4 py-2.5 border rounded-xl text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        <button onclick="saveGasUrl()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl text-sm transition shadow-md">
+          Simpan Konfigurasi
+        </button>
+      </div>
+    </div>
+
+    <!-- Alert status URL -->
+    <div id="urlStatusAlert" class="bg-amber-50 border border-amber-200 text-amber-800 px-4 py-3 rounded-2xl text-sm flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-triangle-exclamation text-amber-600 text-lg"></i>
+        <span>URL Backend Apps Script belum diatur. Harap set URL terlebih dahulu.</span>
+      </div>
+      <button onclick="toggleConfigModal()" class="font-semibold text-amber-900 underline hover:no-underline">Atur URL</button>
+    </div>
+
+    <!-- Form Jurnal 7 KAIH -->
+    <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100">
+      <div class="border-b border-slate-100 pb-4 mb-6">
+        <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+          <span class="bg-blue-100 text-blue-700 p-2 rounded-xl text-base"><i class="fa-solid fa-pen-to-square"></i></span>
+          Isi Jurnal Harian Kebiasaan
+        </h2>
+        <p class="text-slate-500 text-sm mt-1">Laporkan pembiasaan baik yang telah Anda laksanakan hari ini.</p>
+      </div>
+
+      <form id="kaihForm" onsubmit="submitForm(event)" class="space-y-6">
+        <!-- Data Siswa -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Nama Lengkap Siswa</label>
+            <input type="text" id="nama" required placeholder="Contoh: Ahmad Dahlan" 
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-700 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Kelas</label>
+            <select id="kelas" required class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-700 text-sm">
+              <option value="">-- Pilih Kelas --</option>
+              <option value="7A">Kelas 7A</option>
+              <option value="7B">Kelas 7B</option>
+              <option value="7C">Kelas 7C</option>
+              <option value="8A">Kelas 8A</option>
+              <option value="8B">Kelas 8B</option>
+              <option value="8C">Kelas 8C</option>
+              <option value="9A">Kelas 9A</option>
+              <option value="9B">Kelas 9B</option>
+              <option value="9C">Kelas 9C</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Tanggal</label>
+            <input type="date" id="tanggal" required 
+                   class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-700 text-sm">
+          </div>
         </div>
-      </div>
 
-      <div class="mb-4">
-        <label class="form-label fw-semibold text-secondary">Buat Password</label>
-        <div class="input-group">
-          <input type="password" id="regPass" class="form-control border-end-0" placeholder="Password Baru" required>
-          <span class="input-group-text bg-white" onclick="togglePassword('regPass', 'iconPassReg')">
-            <i class="bi bi-eye-slash text-muted" id="iconPassReg"></i>
-          </span>
+        <!-- 7 Kebiasaan Checkbox Grid -->
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-3">Daftar 7 Kebiasaan (Centang yang dilaksanakan)</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+
+            <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition cursor-pointer select-none">
+              <input type="checkbox" id="bangunPagi" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+              <span class="text-xl">🌅</span>
+              <span class="text-xs font-semibold text-slate-700">1. Bangun Pagi</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition cursor-pointer select-none">
+              <input type="checkbox" id="beribadah" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+              <span class="text-xl">🤲</span>
+              <span class="text-xs font-semibold text-slate-700">2. Taat Beribadah</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition cursor-pointer select-none">
+              <input type="checkbox" id="berolahraga" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+              <span class="text-xl">🏃</span>
+              <span class="text-xs font-semibold text-slate-700">3. Rajin Berolahraga</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition cursor-pointer select-none">
+              <input type="checkbox" id="makanSehat" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+              <span class="text-xl">🥗</span>
+              <span class="text-xs font-semibold text-slate-700">4. Makan Sehat & Bergizi</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition cursor-pointer select-none">
+              <input type="checkbox" id="gemarBelajar" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+              <span class="text-xl">📚</span>
+              <span class="text-xs font-semibold text-slate-700">5. Gemar Belajar</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition cursor-pointer select-none">
+              <input type="checkbox" id="bermasyarakat" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+              <span class="text-xl">🤝</span>
+              <span class="text-xs font-semibold text-slate-700">6. Aktif Bermasyarakat</span>
+            </label>
+
+            <label class="flex items-center gap-3 p-3.5 rounded-2xl border border-slate-200 hover:border-blue-400 hover:bg-blue-50/50 transition cursor-pointer select-none sm:col-span-2 md:col-span-1">
+              <input type="checkbox" id="tidurCepat" class="w-5 h-5 text-blue-600 rounded focus:ring-blue-500">
+              <span class="text-xl">🌙</span>
+              <span class="text-xs font-semibold text-slate-700">7. Istirahat / Tidur Cepat</span>
+            </label>
+
+          </div>
         </div>
+
+        <!-- Catatan tambahan -->
+        <div>
+          <label class="block text-xs font-bold text-slate-600 uppercase mb-1">Catatan / Refleksi Diri (Opsional)</label>
+          <textarea id="catatan" rows="2" placeholder="Tuliskan kegiatan positif lain yang kamu lakukan hari ini..." 
+                    class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none text-slate-700 text-sm"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" id="submitBtn" 
+                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3.5 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i> Kirim Jurnal Harian
+        </button>
+      </form>
+    </section>
+
+    <!-- Table Section -->
+    <section class="bg-white rounded-3xl p-6 md:p-8 shadow-xl border border-slate-100">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-4 mb-6 gap-4">
+        <div>
+          <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+            <span class="bg-indigo-100 text-indigo-700 p-2 rounded-xl text-base"><i class="fa-solid fa-list-check"></i></span>
+            Riwayat Jurnal Siswa
+          </h2>
+          <p class="text-slate-500 text-sm mt-1">Daftar masukan pembiasaan 7 KAIH terbaru.</p>
+        </div>
+        <button onclick="fetchData()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold px-4 py-2 rounded-xl transition flex items-center gap-2">
+          <i class="fa-solid fa-rotate-right"></i> Refresh Data
+        </button>
       </div>
 
-      <button onclick="prosesRegister()" class="btn btn-success btn-custom w-100 shadow-sm">
-        <i class="bi bi-person-check-fill me-1"></i> Buat Akun
-      </button>
-    </div>
-
-  </div>
-</div>
-
-<!-- ==================== DASHBOARD MURID ==================== -->
-<div id="dashboardMurid" class="container py-4" style="display:none;">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="fw-bold text-primary mb-0">Dashboard Murid</h4>
-    <button onclick="logout()" class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right"></i> Keluar</button>
-  </div>
-
-  <ul class="nav nav-tabs mb-3">
-    <li class="nav-item">
-      <button class="nav-link active" id="btnTabInputMurid" onclick="switchTabMurid('input')">Input Kegiatan Harian</button>
-    </li>
-    <li class="nav-item">
-      <button class="nav-link" id="btnTabRiwayatMurid" onclick="switchTabMurid('riwayat')">Lihat Riwayat Isian Saya</button>
-    </li>
-  </ul>
-
-  <!-- Tab Input -->
-  <div id="secInputMurid" class="card shadow-sm p-4">
-    <h5 class="mb-3 fw-bold">Form Input Kegiatan</h5>
-    <div class="row g-3 mb-3">
-      <div class="col-md-3"><label class="form-label">Nama Murid</label><input type="text" id="mNama" class="form-control" readonly></div>
-      <div class="col-md-3"><label class="form-label">Kelas</label><input type="text" id="mKelas" class="form-control" readonly></div>
-      <div class="col-md-3">
-        <label class="form-label">Bulan</label>
-        <select id="mBulan" class="form-select">
-          <option>Januari</option><option>Februari</option><option>Maret</option><option>April</option>
-          <option>Mei</option><option>Juni</option><option>Juli</option><option>Agustus</option>
-          <option>September</option><option>Oktober</option><option>November</option><option>Desember</option>
-        </select>
+      <!-- Table Wrapper -->
+      <div class="overflow-x-auto rounded-2xl border border-slate-100">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="bg-slate-50 text-slate-600 border-b border-slate-100 font-bold uppercase tracking-wider">
+              <th class="p-3">Waktu Input</th>
+              <th class="p-3">Nama</th>
+              <th class="p-3">Kelas</th>
+              <th class="p-3">Tanggal</th>
+              <th class="p-3 text-center">Hasil (Ya / 7)</th>
+              <th class="p-3">Catatan</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody" class="divide-y divide-slate-100 text-slate-700">
+            <tr>
+              <td colspan="6" class="p-6 text-center text-slate-400">Belum ada data dimuat. Silakan isi form atau muat ulang data.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="col-md-3"><label class="form-label">Tahun</label><input type="number" id="mTahun" class="form-control" value="2026"></div>
-    </div>
-    <hr>
-    <form id="formKaih">
-      <div class="mb-3"><label class="form-label fw-semibold">Tanggal Input</label><input type="date" id="kTgl" class="form-control" required></div>
-      <div class="mb-3"><label class="form-label fw-semibold">1. Bangun Pagi (Isi Jam)</label><input type="time" id="kBangun" class="form-control" required></div>
-      <div class="mb-3">
-        <label class="form-label fw-semibold">2. Beribadah (Checklist)</label><br>
-        <div class="form-check form-check-inline me-3"><input type="checkbox" id="kSubuh" class="form-check-input"><label class="form-check-label">Subuh</label></div>
-        <div class="form-check form-check-inline me-3"><input type="checkbox" id="kDzuhur" class="form-check-input"><label class="form-check-label">Dzuhur</label></div>
-        <div class="form-check form-check-inline me-3"><input type="checkbox" id="kAshar" class="form-check-input"><label class="form-check-label">Ashar</label></div>
-        <div class="form-check form-check-inline me-3"><input type="checkbox" id="kMaghrib" class="form-check-input"><label class="form-check-label">Maghrib</label></div>
-        <div class="form-check form-check-inline me-3"><input type="checkbox" id="kIsya" class="form-check-input"><label class="form-check-label">Isya</label></div>
-      </div>
-      <div class="mb-3"><label class="form-label fw-semibold">3. Beribadah Baca Al Quran (Surah & Ayat)</label><input type="text" id="kBacaQuran" class="form-control" placeholder="Contoh: Al-Baqarah ayat 1-15"></div>
-      <div class="mb-3"><div class="form-check"><input type="checkbox" id="kOlahraga" class="form-check-input"><label class="form-check-label fw-semibold">4. Berolahraga</label></div></div>
-      <div class="mb-3"><div class="form-check"><input type="checkbox" id="kMakan" class="form-check-input"><label class="form-check-label fw-semibold">5. Makan Sehat dan Bergizi</label></div></div>
-      <div class="mb-3"><div class="form-check"><input type="checkbox" id="kBelajar" class="form-check-input"><label class="form-check-label fw-semibold">6. Gemar Belajar</label></div></div>
-      <div class="mb-3"><div class="form-check"><input type="checkbox" id="kBermasyarakat" class="form-check-input"><label class="form-check-label fw-semibold">7. Bermasyarakat</label></div></div>
-      <div class="mb-3"><div class="form-check"><input type="checkbox" id="kTidur" class="form-check-input"><label class="form-check-label fw-semibold">8. Tidur Cepat</label></div></div>
-      <div class="mb-3"><label class="form-label fw-semibold">Keterangan Tambahan</label><textarea id="kKet" class="form-control" rows="2"></textarea></div>
-      <button type="button" onclick="simpanKaih()" class="btn btn-primary btn-custom w-100 mt-2">Kirim Data Harian</button>
-    </form>
-  </div>
+    </section>
 
-  <!-- Tab Riwayat -->
-  <div id="secRiwayatMurid" class="card shadow-sm p-4" style="display:none;">
-    <h5 class="mb-3 fw-bold">Riwayat Isian Saya</h5>
-    <div class="row g-2 mb-3">
-      <div class="col-md-4">
-        <label class="form-label">Filter Bulan</label>
-        <select id="mFilterBulan" class="form-select">
-          <option>Januari</option><option>Februari</option><option>Maret</option><option>April</option>
-          <option>Mei</option><option>Juni</option><option>Juli</option><option>Agustus</option>
-          <option>September</option><option>Oktober</option><option>November</option><option>Desember</option>
-        </select>
-      </div>
-      <div class="col-md-4">
-        <label class="form-label">Filter Tahun</label>
-        <input type="number" id="mFilterTahun" class="form-control" value="2026">
-      </div>
-      <div class="col-md-4 align-self-end">
-        <button onclick="muatRiwayatMurid()" class="btn btn-primary btn-custom w-100">Tampilkan Riwayat</button>
-      </div>
-    </div>
+  </main>
 
-    <div class="table-responsive">
-      <table class="table table-bordered table-striped text-center align-middle" style="font-size: 13px;">
-        <thead class="table-dark">
-          <tr>
-            <th rowspan="2">Tgl</th>
-            <th rowspan="2">Bangun Pagi</th>
-            <th colspan="5">Beribadah</th>
-            <th rowspan="2">Baca Al Quran</th>
-            <th rowspan="2">Olahraga</th>
-            <th rowspan="2">Makan Sehat</th>
-            <th rowspan="2">Belajar</th>
-            <th rowspan="2">Masyarakat</th>
-            <th rowspan="2">Tidur Cepat</th>
-            <th rowspan="2">Ket.</th>
-          </tr>
-          <tr>
-            <th>Subuh</th><th>Dzuhur</th><th>Ashar</th><th>Magrib</th><th>Isya</th>
-          </tr>
-        </thead>
-        <tbody id="tabelRiwayatMuridBody">
-          <tr><td colspan="14">Klik "Tampilkan Riwayat" untuk melihat data.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+  <!-- Script Implementation -->
+  <script>
+    // System Initialization
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById('tanggal').valueAsDate = new Date();
+      checkGasUrl();
+    });
 
-<!-- ==================== DASHBOARD GURU WALI ==================== -->
-<div id="dashboardGuru" class="container py-4" style="display:none;">
-  <div class="d-flex justify-content-between align-items-center mb-3 no-print">
-    <h4 class="fw-bold text-primary mb-0">Dashboard Guru Wali</h4>
-    <button onclick="logout()" class="btn btn-outline-danger btn-sm"><i class="bi bi-box-arrow-right"></i> Keluar</button>
-  </div>
-
-  <div class="card shadow-sm p-3 mb-4 no-print">
-    <h5 class="fw-bold">Pengaturan & Filter Laporan</h5>
-    <div class="row g-2 mb-2">
-      <div class="col-md-6"><input type="text" id="gNamaKepsek" class="form-control" placeholder="Nama Kepala Sekolah"></div>
-      <div class="col-md-6"><input type="text" id="gNipKepsek" class="form-control" placeholder="NIP Kepala Sekolah"></div>
-    </div>
-    <button onclick="simpanPengaturan()" class="btn btn-sm btn-secondary mb-3">Simpan Data Kepsek</button>
-    
-    <div class="row g-2">
-      <div class="col-md-3">
-        <select id="gPilihMurid" class="form-select"><option value="">-- Pilih Murid --</option></select>
-      </div>
-      <div class="col-md-3">
-        <select id="gBulan" class="form-select">
-          <option>Januari</option><option>Februari</option><option>Maret</option><option>April</option>
-          <option>Mei</option><option>Juni</option><option>Juli</option><option>Agustus</option>
-          <option>September</option><option>Oktober</option><option>November</option><option>Desember</option>
-        </select>
-      </div>
-      <div class="col-md-2"><input type="number" id="gTahun" class="form-control" value="2026"></div>
-      <div class="col-md-2"><input type="date" id="gTglCetak" class="form-control"></div>
-      <div class="col-md-2">
-        <button onclick="muatLaporanGuru()" class="btn btn-primary w-100 py-2">Tampilkan</button>
-      </div>
-    </div>
-    <div class="mt-3 text-end">
-      <button onclick="window.print()" class="btn btn-success py-2 px-4"><i class="bi bi-printer me-1"></i> Cetak Laporan</button>
-    </div>
-  </div>
-
-  <!-- Area Cetak Laporan -->
-  <div id="areaCetak" class="bg-white p-4">
-    <h3 class="text-center fw-bold mb-4">KONTROL PERKEMBANGAN 7 KAIH</h3>
-    <table class="table table-borderless mb-3 p-0 tabel-info-murid" style="width: auto; font-size: 14px;">
-      <tr>
-        <td class="p-0 pe-2">Nama Murid</td><td class="p-0 pe-2">:</td><td class="p-0 fw-bold"><span id="lblNamaMurid">-</span></td>
-      </tr>
-      <tr>
-        <td class="p-0 pe-2">Kelas</td><td class="p-0 pe-2">:</td><td class="p-0 fw-bold"><span id="lblKelas">-</span></td>
-      </tr>
-      <tr>
-        <td class="p-0 pe-2">Bulan</td><td class="p-0 pe-2">:</td><td class="p-0 fw-bold"><span id="lblBulanTahun">-</span></td>
-      </tr>
-    </table>
-
-    <table id="tabelLaporanUtama" class="table table-bordered align-middle" style="font-size: 11px; width: 100%;">
-      <thead class="table-light">
-        <tr>
-          <th rowspan="2">No.</th>
-          <th rowspan="2">Bangun Pagi</th>
-          <th colspan="5">Beribadah</th>
-          <th rowspan="2">Baca Al Quran</th>
-          <th rowspan="2">Berolahraga</th>
-          <th rowspan="2">Makan Sehat & Bergizi</th>
-          <th rowspan="2">Gemar Belajar</th>
-          <th rowspan="2">Bermasyarakat</th>
-          <th rowspan="2">Tidur Cepat</th>
-          <th rowspan="2">Ket.</th>
-        </tr>
-        <tr>
-          <th>Subuh</th><th>Dzuhur</th><th>Ashar</th><th>Magrib</th><th>Isya</th>
-        </tr>
-      </thead>
-      <tbody id="tabelLaporanBody">
-        <tr><td colspan="14">Pilih murid dan periode untuk menampilkan data.</td></tr>
-      </tbody>
-    </table>
-
-    <!-- Area Tanda Tangan -->
-    <div class="row mt-5" style="font-size: 14px; margin-left: 80px; width: calc(100% - 80px);">
-      <div class="col-6 text-start">
-        <div>Mengetahui :</div>
-        <div>Kepala Sekolah</div>
-        <br><br><br>
-        <div class="fw-bold" id="lblNamaKepsek">( ..................................... )</div>
-        <div>NIP. <span id="lblNipKepsek">-</span></div>
-      </div>
-
-      <div class="col-5 text-start" style="margin-left: auto; transform: translateX(120px);">
-        <div>Wangi-Wangi, <span id="lblTglCetak">........................</span></div>
-        <div>Guru Wali,</div>
-        <br><br><br>
-        <div class="fw-bold" id="lblNamaGuru">( ..................................... )</div>
-        <div>NIP. <span id="lblNipGuru">-</span></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-  // Tempelkan URL Web App dari langkah 2 di bawah ini:
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbwk1ea2WLqo6r60l3g7bB1CPddCBL9O30eJq-ptQthhFfx7dpTmWX-Ew3I774-YhzxtaQ/exec";
-
-    fetch(webAppUrl)
-      .then(response => response.json())
-      .then(data => {
-        // Tampilkan data yang dikirim oleh Code.gs
-        document.getElementById("data-container").innerText = data.pesan;
-      })
-      .catch(error => {
-        console.error("Gagal mengambil data:", error);
-        document.getElementById("data-container").innerText = "Gagal memuat data.";
-      });
-  
-  let currentUser = null;
-
-  window.onload = function() {
-    muatUserLoginOptions();
-  };
-
-  function togglePassword(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
-    if (input.type === "password") {
-      input.type = "text";
-      icon.classList.remove("bi-eye-slash");
-      icon.classList.add("bi-eye");
-    } else {
-      input.type = "password";
-      icon.classList.remove("bi-eye");
-      icon.classList.add("bi-eye-slash");
+    function toggleConfigModal() {
+      const modal = document.getElementById('configModal');
+      modal.classList.toggle('hidden');
+      const savedUrl = localStorage.getItem('GAS_WEB_APP_URL') || '';
+      document.getElementById('gasUrlInput').value = savedUrl;
     }
-  }
 
-  function switchTab(tab) {
-    if (tab === 'login') {
-      document.getElementById('loginForm').style.display = 'block';
-      document.getElementById('registerForm').style.display = 'none';
-      document.getElementById('tabLogin').classList.add('active');
-      document.getElementById('tabRegister').classList.remove('active');
-      muatUserLoginOptions();
-    } else {
-      document.getElementById('loginForm').style.display = 'none';
-      document.getElementById('registerForm').style.display = 'block';
-      document.getElementById('tabLogin').classList.remove('active');
-      document.getElementById('tabRegister').classList.add('active');
-      muatGuruWaliOptions();
-    }
-  }
-
-  function toggleRegForm() {
-    const role = document.getElementById('regRole').value;
-    document.getElementById('fieldMuridOnly').style.display = (role === 'Murid') ? 'block' : 'none';
-  }
-
-  function muatUserLoginOptions() {
-    const role = document.getElementById('loginRole').value;
-    const select = document.getElementById('loginNama');
-    select.innerHTML = '<option value="">-- Memuat nama... --</option>';
-
-    google.script.run.withSuccessHandler(function(list) {
-      select.innerHTML = `<option value="">-- Pilih Nama ${role} --</option>`;
-      if (list.length === 0) {
-        select.innerHTML = `<option value="">-- Belum ada ${role} terdaftar --</option>`;
+    function saveGasUrl() {
+      const url = document.getElementById('gasUrlInput').value.trim();
+      if (!url) {
+        alert("URL tidak boleh kosong!");
+        return;
       }
-      list.forEach(u => {
-        select.innerHTML += `<option value="${u.nama}">${u.nama} ${u.kelas ? '(' + u.kelas + ')' : ''}</option>`;
-      });
-    }).getDaftarUserByRole(role);
-  }
-
-  function muatGuruWaliOptions() {
-    google.script.run.withSuccessHandler(function(list) {
-      const select = document.getElementById('regGuruWali');
-      select.innerHTML = '<option value="">-- Pilih Guru Wali --</option>';
-      if (list.length === 0) {
-        alert('Belum ada Guru Wali terdaftar. Guru Wali harus mendaftar terlebih dahulu!');
-      }
-      list.forEach(g => {
-        select.innerHTML += `<option value="${g.nama}">${g.nama}</option>`;
-      });
-    }).getDaftarGuru();
-  }
-
-  function prosesRegister() {
-    const data = {
-      role: document.getElementById('regRole').value,
-      nama: document.getElementById('regNama').value,
-      nipNis: document.getElementById('regNipNis').value,
-      kelas: document.getElementById('regKelas').value,
-      guruWali: document.getElementById('regGuruWali').value,
-      password: document.getElementById('regPass').value
-    };
-
-    if (!data.nama || !data.password) {
-      alert('Nama dan Password wajib diisi!');
-      return;
+      localStorage.setItem('GAS_WEB_APP_URL', url);
+      toggleConfigModal();
+      checkGasUrl();
+      fetchData();
     }
 
-    if (data.role === 'Murid' && !data.guruWali) {
-      alert('Pilih Guru Wali terlebih dahulu!');
-      return;
-    }
-
-    google.script.run.withSuccessHandler(function(res) {
-      alert(res.message);
-      if (res.success) {
-        document.getElementById('regNama').value = '';
-        document.getElementById('regNipNis').value = '';
-        document.getElementById('regKelas').value = '';
-        document.getElementById('regPass').value = '';
-        switchTab('login');
-      }
-    }).registerUser(data);
-  }
-
-  function prosesLogin() {
-    const role = document.getElementById('loginRole').value;
-    const nama = document.getElementById('loginNama').value;
-    const pass = document.getElementById('loginPass').value;
-
-    if (!nama) { alert('Silakan pilih nama terlebih dahulu!'); return; }
-    if (!pass) { alert('Masukkan password!'); return; }
-
-    google.script.run.withSuccessHandler(function(res) {
-      if (res.success) {
-        currentUser = res.user;
-        document.getElementById('authSection').style.setProperty('display', 'none', 'important');
-        if (currentUser.role === 'Murid') {
-          document.getElementById('dashboardMurid').style.display = 'block';
-          document.getElementById('mNama').value = currentUser.nama;
-          document.getElementById('mKelas').value = currentUser.kelas;
-          switchTabMurid('input');
-        } else {
-          document.getElementById('dashboardGuru').style.display = 'block';
-          initDashboardGuru();
-        }
+    function checkGasUrl() {
+      const savedUrl = localStorage.getItem('GAS_WEB_APP_URL');
+      const alertBox = document.getElementById('urlStatusAlert');
+      if (savedUrl) {
+        alertBox.classList.add('hidden');
       } else {
-        alert(res.message);
+        alertBox.classList.remove('hidden');
       }
-    }).loginUserByName(role, nama, pass);
-  }
-
-  function switchTabMurid(tab) {
-    if (tab === 'input') {
-      document.getElementById('secInputMurid').style.display = 'block';
-      document.getElementById('secRiwayatMurid').style.display = 'none';
-      document.getElementById('btnTabInputMurid').classList.add('active');
-      document.getElementById('btnTabRiwayatMurid').classList.remove('active');
-    } else {
-      document.getElementById('secInputMurid').style.display = 'none';
-      document.getElementById('secRiwayatMurid').style.display = 'block';
-      document.getElementById('btnTabInputMurid').classList.remove('active');
-      document.getElementById('btnTabRiwayatMurid').classList.add('active');
-      muatRiwayatMurid();
-    }
-  }
-
-  function simpanKaih() {
-    const formData = {
-      nama: currentUser.nama,
-      kelas: currentUser.kelas,
-      bulan: document.getElementById('mBulan').value,
-      tahun: document.getElementById('mTahun').value,
-      tgl: document.getElementById('kTgl').value,
-      bangunPagi: document.getElementById('kBangun').value,
-      subuh: document.getElementById('kSubuh').checked,
-      dzuhur: document.getElementById('kDzuhur').checked,
-      ashar: document.getElementById('kAshar').checked,
-      maghrib: document.getElementById('kMaghrib').checked,
-      isya: document.getElementById('kIsya').checked,
-      bacaAlQuran: document.getElementById('kBacaQuran').value,
-      berolahraga: document.getElementById('kOlahraga').checked,
-      makanSehat: document.getElementById('kMakan').checked,
-      gemarBelajar: document.getElementById('kBelajar').checked,
-      bermasyarakat: document.getElementById('kBermasyarakat').checked,
-      tidurCepat: document.getElementById('kTidur').checked,
-      ket: document.getElementById('kKet').value
-    };
-
-    if (!formData.tgl || !formData.bangunPagi) {
-      alert('Tanggal dan Jam Bangun Pagi wajib diisi!');
-      return;
     }
 
-    google.script.run.withSuccessHandler(function(res) {
-      alert(res.message);
-      document.getElementById('formKaih').reset();
-    }).simpanDataKaih(formData);
-  }
-
-  function muatRiwayatMurid() {
-    const bulan = document.getElementById('mFilterBulan').value;
-    const tahun = document.getElementById('mFilterTahun').value;
-    const tbody = document.getElementById('tabelRiwayatMuridBody');
-
-    tbody.innerHTML = '<tr><td colspan="14">Sedang memuat data...</td></tr>';
-
-    google.script.run.withSuccessHandler(function(list) {
-      tbody.innerHTML = '';
-      if (!list || list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="14" class="text-danger">Belum ada isian untuk bulan ${bulan} ${tahun}.</td></tr>`;
+    // Submit Handler
+    async function submitForm(event) {
+      event.preventDefault();
+      const gasUrl = localStorage.getItem('GAS_WEB_APP_URL');
+      if (!gasUrl) {
+        alert("Silakan atur URL Google Apps Script terlebih dahulu melalui tombol di kanan atas!");
+        toggleConfigModal();
         return;
       }
 
-      list.forEach((item) => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${item.tgl}</td>
-            <td>${item.bangunPagi}</td>
-            <td>${item.subuh === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.dzuhur === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.ashar === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.maghrib === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.isya === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.bacaAlQuran || '-'}</td>
-            <td>${item.berolahraga === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.makanSehat === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.gemarBelajar === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.bermasyarakat === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.tidurCepat === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.ket || '-'}</td>
-          </tr>
-        `;
-      });
-    }).getLaporanMurid(currentUser.nama, bulan, tahun);
-  }
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Mengirim Data...`;
 
-  function initDashboardGuru() {
-    document.getElementById('lblNamaGuru').innerText = currentUser.nama;
-    document.getElementById('lblNipGuru').innerText = currentUser.nipNis;
+      const payload = {
+        nama: document.getElementById('nama').value,
+        kelas: document.getElementById('kelas').value,
+        tanggal: document.getElementById('tanggal').value,
+        bangunPagi: document.getElementById('bangunPagi').checked,
+        beribadah: document.getElementById('beribadah').checked,
+        berolahraga: document.getElementById('berolahraga').checked,
+        makanSehat: document.getElementById('makanSehat').checked,
+        gemarBelajar: document.getElementById('gemarBelajar').checked,
+        bermasyarakat: document.getElementById('bermasyarakat').checked,
+        tidurCepat: document.getElementById('tidurCepat').checked,
+        catatan: document.getElementById('catatan').value
+      };
 
-    google.script.run.withSuccessHandler(function(data) {
-      if (data) {
-        document.getElementById('gNamaKepsek').value = data.namaKepsek || '';
-        document.getElementById('gNipKepsek').value = data.nipKepsek || '';
-        document.getElementById('lblNamaKepsek').innerText = data.namaKepsek ? data.namaKepsek : '( ..................................... )';
-        document.getElementById('lblNipKepsek').innerText = data.nipKepsek ? data.nipKepsek : '-';
+      try {
+        await fetch(gasUrl, {
+          method: "POST",
+          mode: "no-cors", // Penting untuk penanganan CORS pada GAS Web App
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        alert("🎉 Jurnal 7 KAIH berhasil terkirim!");
+        document.getElementById('kaihForm').reset();
+        document.getElementById('tanggal').valueAsDate = new Date();
+        setTimeout(fetchData, 1500); // Reload data setelah jeda 1.5 detik
+      } catch (error) {
+        alert("Gagal mengalirkan data: " + error.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-paper-plane"></i> Kirim Jurnal Harian`;
       }
-    }).getSettings();
-
-    google.script.run.withSuccessHandler(function(list) {
-      const select = document.getElementById('gPilihMurid');
-      select.innerHTML = '<option value="">-- Pilih Murid --</option>';
-      list.forEach(m => {
-        select.innerHTML += `<option value="${m.nama}" data-kelas="${m.kelas}">${m.nama} (${m.kelas})</option>`;
-      });
-    }).getDaftarMuridByGuru(currentUser.nama);
-  }
-
-  function simpanPengaturan() {
-    const settings = {
-      namaKepsek: document.getElementById('gNamaKepsek').value,
-      nipKepsek: document.getElementById('gNipKepsek').value
-    };
-    if (!settings.namaKepsek) {
-      alert('Nama Kepala Sekolah tidak boleh kosong!');
-      return;
     }
-    google.script.run.withSuccessHandler(function(res) {
-      alert(res.message);
-      document.getElementById('lblNamaKepsek').innerText = settings.namaKepsek;
-      document.getElementById('lblNipKepsek').innerText = settings.nipKepsek;
-    }).simpanSettings(settings);
-  }
 
-  function muatLaporanGuru() {
-    const selectMurid = document.getElementById('gPilihMurid');
-    const nama = selectMurid.value;
-    const kelas = selectMurid.options[selectMurid.selectedIndex]?.getAttribute('data-kelas') || '-';
-    const bulan = document.getElementById('gBulan').value;
-    const tahun = document.getElementById('gTahun').value;
-    const tglCetak = document.getElementById('gTglCetak').value;
+    // Fetch Table Data
+    async function fetchData() {
+      const gasUrl = localStorage.getItem('GAS_WEB_APP_URL');
+      if (!gasUrl) return;
 
-    if (!nama) { alert('Silakan pilih murid terlebih dahulu!'); return; }
+      const tbody = document.getElementById('tableBody');
+      tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-500"><i class="fa-solid fa-spinner fa-spin text-blue-600 mr-2"></i> Mengambil data dari server...</td></tr>`;
 
-    document.getElementById('lblNamaMurid').innerText = nama;
-    document.getElementById('lblKelas').innerText = kelas;
-    document.getElementById('lblBulanTahun').innerText = bulan + ' ' + tahun;
-    document.getElementById('lblTglCetak').innerText = tglCetak ? formatTanggal(tglCetak) : '........................';
+      try {
+        const res = await fetch(gasUrl);
+        const result = await res.json();
 
-    const namaKepsekInput = document.getElementById('gNamaKepsek').value;
-    const nipKepsekInput = document.getElementById('gNipKepsek').value;
-    document.getElementById('lblNamaKepsek').innerText = namaKepsekInput ? namaKepsekInput : '( ..................................... )';
-    document.getElementById('lblNipKepsek').innerText = nipKepsekInput ? nipKepsekInput : '-';
+        if (result.status === "success" && result.data.length > 0) {
+          tbody.innerHTML = result.data.map(item => {
+            // Hitung total kebiasaan dilaksanakan
+            const keys = ["Bangun Pagi", "Beribadah", "Berolahraga", "Makan Sehat", "Gemar Belajar", "Bermasyarakat", "Tidur Cepat"];
+            let count = 0;
+            keys.forEach(k => { if (item[k] === "YA") count++; });
 
-    const tbody = document.getElementById('tabelLaporanBody');
-    tbody.innerHTML = '<tr><td colspan="14">Sedang memuat data...</td></tr>';
-
-    google.script.run.withSuccessHandler(function(list) {
-      tbody.innerHTML = '';
-      if (!list || list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="14" class="text-danger">Data tidak ditemukan untuk periode ini.</td></tr>';
-        return;
+            return `
+              <tr class="hover:bg-slate-50 transition">
+                <td class="p-3 text-slate-400 whitespace-nowrap">${item["Timestamp"] || '-'}</td>
+                <td class="p-3 font-semibold text-slate-800">${item["Nama Siswa"] || '-'}</td>
+                <td class="p-3"><span class="bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded-md text-[10px]">${item["Kelas"] || '-'}</span></td>
+                <td class="p-3 whitespace-nowrap">${item["Tanggal"] || '-'}</td>
+                <td class="p-3 text-center">
+                  <span class="font-extrabold ${count === 7 ? 'text-emerald-600' : 'text-blue-600'}">${count} / 7</span>
+                </td>
+                <td class="p-3 text-slate-500 max-w-xs truncate">${item["Catatan"] || '-'}</td>
+              </tr>
+            `;
+          }).join('');
+        } else {
+          tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Belum ada riwayat data di Google Spreadsheet.</td></tr>`;
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-rose-500 font-medium">Gagal memuat data riwayat. Pastikan URL Apps Script benar dan di-deploy sebagai Web App dengan akses "Anyone".</td></tr>`;
       }
-
-      list.forEach((item, index) => {
-        tbody.innerHTML += `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${item.bangunPagi}</td>
-            <td>${item.subuh === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.dzuhur === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.ashar === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.maghrib === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.isya === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.bacaAlQuran || '-'}</td>
-            <td>${item.berolahraga === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.makanSehat === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.gemarBelajar === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.bermasyarakat === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.tidurCepat === 'Ya' ? '✓' : '-'}</td>
-            <td>${item.ket || '-'}</td>
-          </tr>
-        `;
-      });
-    }).getLaporanMurid(nama, bulan, tahun);
-  }
-
-  function formatTanggal(tglStr) {
-    const d = new Date(tglStr);
-    return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
-
-  function logout() {
-    currentUser = null;
-    document.getElementById('loginPass').value = '';
-    document.getElementById('dashboardMurid').style.display = 'none';
-    document.getElementById('dashboardGuru').style.display = 'none';
-    document.getElementById('authSection').style.setProperty('display', 'flex', 'important');
-    switchTab('login');
-  }
-</script>
+    }
+  </script>
 </body>
 </html>
