@@ -459,6 +459,20 @@
 </div>
 
 <script>
+  // Tempelkan URL Web App dari langkah 2 di bawah ini:
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbwk1ea2WLqo6r60l3g7bB1CPddCBL9O30eJq-ptQthhFfx7dpTmWX-Ew3I774-YhzxtaQ/exec";
+
+    fetch(webAppUrl)
+      .then(response => response.json())
+      .then(data => {
+        // Tampilkan data yang dikirim oleh Code.gs
+        document.getElementById("data-container").innerText = data.pesan;
+      })
+      .catch(error => {
+        console.error("Gagal mengambil data:", error);
+        document.getElementById("data-container").innerText = "Gagal memuat data.";
+      });
+  
   let currentUser = null;
 
   window.onload = function() {
